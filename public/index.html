@@ -9,25 +9,26 @@
 <body>
 
   <div class="container">
-    <h2>Marriage Certificate Verification</h2>
+    <h1>Marriage Certificate Verification</h1>
 
     <input
+      id="serial"
       type="text"
-      id="docId"
       placeholder="Enter Marriage Certificate Serial Number"
     />
 
     <div class="captcha-box">
-      <div id="captchaText" class="captcha-text"></div>
-
-      <input
-        type="text"
-        id="captchaInput"
-        placeholder="Enter captcha shown above"
-      >
+      <img src="/captcha" id="captchaImage" alt="Captcha Image">
+      <button type="button" onclick="reloadCaptcha()">↻</button>
     </div>
 
-    <button onclick="verifyDocument()">Search</button>
+    <input
+      id="captcha"
+      type="text"
+      placeholder="Enter captcha shown above"
+    />
+
+    <button onclick="verify()">Search</button>
   </div>
 
   <script src="script.js"></script>
