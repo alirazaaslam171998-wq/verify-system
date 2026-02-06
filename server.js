@@ -1,7 +1,8 @@
 const express = require("express");
 const session = require("express-session");
-const svgCaptcha = require("svg-captcha");
 const path = require("path");
+const fs = require("fs");
+const svgCaptcha = require("svg-captcha");
 
 const app = express();
 
@@ -10,19 +11,25 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "training-secret",
+    secret: "verify-secret",
     resave: false,
     saveUninitialized: true,
   })
 );
 
-app.use(express.static("public"));
-app.use("/docs", express.static("docs"));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/api/captcha", (req, res) => {
+// Load documents registry
+const documents = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "documents.json"), "utf8")
+);
+
+// 🔐 CAPTCHA ROUTE
+app.get("/captcha", (req, res) => {
   const captcha = svgCaptcha.create({
     size: 6,
     noise: 3,
+    color: true,
     background: "#f2f2f2",
   });
 
@@ -31,16 +38,28 @@ app.get("/api/captcha", (req, res) => {
   res.send(captcha.data);
 });
 
-app.post("/api/verify", (req, res) => {
-  const { captcha, docId } = req.body;
+// 🔍 VERIFY ROUTE
+app.post("/verify", (req, res) => {
+  const { serial, captcha } = req.body;
 
-  if (!captcha || captcha !== req.session.captcha) {
-    return res.json({ success: false });
+  if (!serial || !captcha) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
+  if (captcha.toLowerCase() !== req.session.captcha?.toLowerCase()) {
+    return res.status(401).json({ error: "Invalid captcha" });
+  }
+
+  const record = documents[serial];
+
+  if (!record) {
+    return res.status(404).json({ error: "Invalid Serial Number" });
   }
 
   res.json({
     success: true,
-    documentUrl: `/docs/sample.pdf`,
+    file: record.file,
+    name: record.displayName,
   });
 });
 
