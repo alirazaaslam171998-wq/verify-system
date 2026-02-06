@@ -1,42 +1,33 @@
 function generateCaptcha() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let captcha = "";
-  for (let i = 0; i < 6; i++) {
-    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
+  const captcha = Math.floor(1000 + Math.random() * 9000);
   document.getElementById("captchaText").innerText = captcha;
 }
 
-async function verifyDocument() {
-  const docId = document.getElementById("docId").value.trim();
-  const captchaInput = document.getElementById("captchaInput").value.trim();
-  const captchaText = document.getElementById("captchaText").innerText;
+function verifyDocument() {
+  const sr = document.getElementById("docId").value.trim();
+  const userCaptcha = document.getElementById("captchaInput").value.trim();
+  const realCaptcha = document.getElementById("captchaText").innerText;
 
-  if (!docId) {
-    alert("Please enter marriage certificate serial number.");
+  if (sr === "") {
+    alert("Please enter serial number");
     return;
   }
 
-  if (!captchaInput) {
-    alert("Please enter captcha.");
-    return;
-  }
-
-  if (captchaInput !== captchaText) {
-    alert("Invalid captcha. Please try again.");
+  if (userCaptcha !== realCaptcha) {
+    alert("Invalid captcha");
     generateCaptcha();
-    document.getElementById("captchaInput").value = "";
     return;
   }
 
-  const response = await fetch("/documents.json", { cache: "no-store" });
-  const documents = await response.json();
-
-  if (documents[docId]) {
-    window.location.href = documents[docId].file;
-  } else {
-    alert("Marriage certificate not found.");
-  }
+  fetch("/documents.json")
+    .then(res => res.json())
+    .then(data => {
+      if (data[sr]) {
+        window.location.href = data[sr];
+      } else {
+        alert("Document not found");
+      }
+    });
 }
 
 window.onload = generateCaptcha;
