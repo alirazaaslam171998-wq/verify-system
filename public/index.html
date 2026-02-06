@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Document Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
+    <h2>Marriage Certificate Verification</h2>
 
-  <div class="captcha-row">
-    <img id="captchaImg" src="/api/captcha">
-    <button onclick="refreshCaptcha()">↻</button>
+    <input
+      type="text"
+      id="docId"
+      placeholder="Enter Marriage Certificate Serial Number"
+    />
+
+    <div class="captcha-box">
+      <span id="captchaText"></span>
+      <input
+        type="text"
+        id="captchaInput"
+        placeholder="Enter Captcha"
+      />
+    </div>
+
+    <button onclick="verifyDocument()">Search</button>
   </div>
 
-  <input type="text" id="captchaInput" placeholder="Enter captcha">
-
-  <button onclick="searchDoc()">Search</button>
-
-  <div id="result"></div>
-
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
