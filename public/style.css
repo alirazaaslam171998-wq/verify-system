@@ -81,3 +81,18 @@ button:hover {
     padding: 22px;
   }
 }
+.captcha-box {
+  margin-top: 15px;
+}
+
+.captcha-text {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  text-align: center;
+  background: #f2f2f2;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  user-select: none;
+}
