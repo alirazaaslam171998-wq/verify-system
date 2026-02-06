@@ -1,98 +1,52 @@
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-  margin: 0;
-  padding: 0;
-  background: #f3f6fb;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
 }
 
 .container {
-  background: #ffffff;
-  width: 100%;
   max-width: 420px;
-  padding: 28px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin: 80px auto;
+  text-align: center;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #1f2937;
-  font-size: 20px;
+h1 {
+  margin-bottom: 30px;
 }
 
 input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 14px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
+  margin-bottom: 15px;
   font-size: 14px;
-}
-
-input:focus {
-  outline: none;
-  border-color: #2563eb;
-}
-
-.captcha-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-#captchaText {
-  flex: 1;
-  background: #e5e7eb;
-  text-align: center;
-  font-weight: bold;
-  letter-spacing: 2px;
-  padding: 12px;
-  border-radius: 6px;
-  user-select: none;
+  box-sizing: border-box;
 }
 
 button {
   width: 100%;
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
   padding: 12px;
-  border-radius: 6px;
+  background: #3c84b5;
+  color: white;
+  border: none;
   font-size: 15px;
   cursor: pointer;
 }
 
 button:hover {
-  background: #1e40af;
+  background: #2c6a96;
 }
 
-@media (max-width: 480px) {
-  .container {
-    margin: 20px;
-    padding: 22px;
-  }
-}
 .captcha-box {
-  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
-.captcha-text {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 6px;
-  text-align: center;
-  background: #f2f2f2;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  user-select: none;
+.captcha-box img {
+  height: 50px;
+}
+
+.captcha-box button {
+  width: 50px;
+  margin-left: 10px;
 }
