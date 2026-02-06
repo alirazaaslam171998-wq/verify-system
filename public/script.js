@@ -1,47 +1,30 @@
-function generateCaptcha() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let captcha = "";
-
-  for (let i = 0; i < 5; i++) {
-    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  document.getElementById("captchaText").innerText = captcha;
+function reloadCaptcha() {
+  document.getElementById("captchaImage").src =
+    "/captcha?" + Date.now();
 }
 
-// run captcha on page load
-window.onload = generateCaptcha;
+async function verify() {
+  const serial = document.getElementById("serial").value.trim();
+  const captcha = document.getElementById("captcha").value.trim();
 
-function verifyDocument() {
-  const sr = document.getElementById("docId").value.trim();
-  const userCaptcha = document.getElementById("captchaInput").value.trim();
-  const realCaptcha = document.getElementById("captchaText").innerText.trim();
-
-  if (sr === "") {
-    alert("Please enter Serial Number");
+  if (!serial || !captcha) {
+    alert("Please fill all fields");
     return;
   }
 
-  if (userCaptcha === "") {
-    alert("Please enter captcha");
+  const res = await fetch("/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ serial, captcha }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.error || "Verification failed");
+    reloadCaptcha();
     return;
   }
 
-  if (userCaptcha !== realCaptcha) {
-    alert("Incorrect captcha");
-    generateCaptcha();
-    document.getElementById("captchaInput").value = "";
-    return;
-  }
-
-  fetch("/documents.json")
-    .then(res => res.json())
-    .then(data => {
-      if (data[sr] && data[sr].file) {
-        window.location.href = data[sr].file;
-      } else {
-        alert("Invalid Serial Number");
-        generateCaptcha();
-      }
-    });
+  window.open(data.file, "_blank");
 }
