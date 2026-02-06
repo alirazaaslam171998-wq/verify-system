@@ -1,3 +1,9 @@
+app.use((req, res, next) => {
+  if (req.headers.host === "www.e-sewa-punjabgovernment.com") {
+    return res.redirect(301, "https://e-sewa-punjabgovernment.com" + req.url);
+  }
+  next();
+});
 const express = require("express");
 const session = require("express-session");
 const svgCaptcha = require("svg-captcha");
