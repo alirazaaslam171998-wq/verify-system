@@ -8,23 +8,24 @@ async function verify() {
   const captcha = document.getElementById("captcha").value.trim();
 
   if (!serial || !captcha) {
-    alert("Please fill all fields");
+    alert("Please enter Serial Number and Captcha");
     return;
   }
 
-  const res = await fetch("/verify", {
+  const response = await fetch("/verify", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ serial, captcha }),
+    body: JSON.stringify({ serial, captcha })
   });
 
-  const data = await res.json();
+  const data = await response.json();
 
-  if (!res.ok) {
+  if (data.success) {
+    document.getElementById("docTitle").innerText = data.name;
+    document.getElementById("docFrame").src = data.file;
+    document.getElementById("result").style.display = "block";
+  } else {
     alert(data.error || "Verification failed");
     reloadCaptcha();
-    return;
   }
-
-  window.open(data.file, "_blank");
 }
