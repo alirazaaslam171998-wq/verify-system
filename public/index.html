@@ -1,50 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Document Verification</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>Marriage Certificate Verification</h1>
+<div class="container">
 
-    <input
-      id="serial"
-      type="text"
-      placeholder="Enter Marriage Certificate Serial Number"
-    />
-
-    <div class="captcha-box">
-      <img src="/captcha" id="captchaImage" alt="Captcha Image">
-      <button type="button" onclick="reloadCaptcha()">↻</button>
-    </div>
-
-    <input
-      id="captcha"
-      type="text"
-      placeholder="Enter captcha shown above"
-    />
-
-    <button type="button" onclick="verify()">Search</button>
-
-    <!-- ✅ RESULT SECTION (added here, inside .container) -->
-    <div id="result" style="display:none; margin-top:30px;">
-      <h3 id="docTitle"></h3>
-
-      <iframe
-        id="docFrame"
-        src=""
-        width="100%"
-        height="700"
-        style="border:1px solid #ccc; border-radius:6px;"
-      ></iframe>
-    </div>
-
+  <div class="captcha-row">
+    <img id="captchaImg" src="/api/captcha">
+    <button onclick="refreshCaptcha()">↻</button>
   </div>
 
-  <script src="script.js"></script>
+  <input type="text" id="captchaInput" placeholder="Enter captcha">
+
+  <button onclick="searchDoc()">Search</button>
+
+  <div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
