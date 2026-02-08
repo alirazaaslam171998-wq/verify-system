@@ -1,8 +1,7 @@
 const express = require("express");
 const session = require("express-session");
-const path = require("path");
-const fs = require("fs");
 const svgCaptcha = require("svg-captcha");
+const path = require("path");
 
 const app = express();
 
@@ -11,25 +10,19 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "verify-secret",
+    secret: "training-secret",
     resave: false,
     saveUninitialized: true,
   })
 );
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
+app.use("/docs", express.static("docs"));
 
-// Load documents registry
-const documents = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "documents.json"), "utf8")
-);
-
-// 🔐 CAPTCHA ROUTE
-app.get("/captcha", (req, res) => {
+app.get("/api/captcha", (req, res) => {
   const captcha = svgCaptcha.create({
     size: 6,
     noise: 3,
-    color: true,
     background: "#f2f2f2",
   });
 
@@ -38,31 +31,19 @@ app.get("/captcha", (req, res) => {
   res.send(captcha.data);
 });
 
-// 🔍 VERIFY ROUTE
-app.post("/verify", (req, res) => {
-  const { serial, captcha } = req.body;
+app.post("/api/verify", (req, res) => {
+  const { captcha, docId } = req.body;
 
-  if (!serial || !captcha) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
-
-  if (captcha.toLowerCase() !== req.session.captcha?.toLowerCase()) {
-    return res.status(401).json({ error: "Invalid captcha" });
-  }
-
-  const record = documents[serial];
-
-  if (!record) {
-    return res.status(404).json({ error: "Invalid Serial Number" });
+  if (!captcha || captcha !== req.session.captcha) {
+    return res.json({ success: false });
   }
 
   res.json({
     success: true,
-    file: record.file,
-    name: record.displayName,
+    documentUrl: `/docs/marriage_certificate_es25399641.pdf`,
   });
 });
 
 app.listen(3000, () => {
-  console.log("Server running at http://localhost:3000");
+  console.log("Server running for https://e-sewa-punjabgovernment.com/");
 });
