@@ -32,18 +32,17 @@ app.get("/api/captcha", (req, res) => {
 });
 
 app.post("/api/verify", (req, res) => {
-  const { captcha, srNumber } = req.body;
+  const { captcha, docId } = req.body;
 
   if (!captcha || captcha !== req.session.captcha) {
     return res.json({ success: false });
   }
 
-  const documentUrl = `/docs/marriage_certificate_${srNumber.toUpperCase()}.pdf`;
-
 res.json({
   success: true,
-  documentUrl: documentUrl,
+  documentUrl: `/docs/marriage_certificate_es25399641.pdf`,
 });
+
 
 });
 
