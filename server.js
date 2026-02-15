@@ -38,7 +38,7 @@ app.post("/api/verify", (req, res) => {
     return res.json({ success: false });
   }
 
-  const documentUrl = `/docs/marriage_certificate_${srNumber}.pdf`;
+  const documentUrl = `/docs/marriage_certificate_${srNumber.toUpperCase()}.pdf`;
 
 res.json({
   success: true,
