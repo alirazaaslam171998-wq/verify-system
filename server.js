@@ -17,7 +17,7 @@ app.use(
 );
 
 app.use(express.static("public"));
-app.use("/docs", express.static("docs"));
+app.use("/docs", express.static(path.join(__dirname, "public/docs")));
 
 app.get("/api/captcha", (req, res) => {
   const captcha = svgCaptcha.create({
