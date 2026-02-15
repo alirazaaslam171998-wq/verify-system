@@ -32,16 +32,19 @@ app.get("/api/captcha", (req, res) => {
 });
 
 app.post("/api/verify", (req, res) => {
-  const { captcha, docId } = req.body;
+  const { captcha, srNumber } = req.body;
 
   if (!captcha || captcha !== req.session.captcha) {
     return res.json({ success: false });
   }
 
-  res.json({
-    success: true,
-    documentUrl: `/docs/marriage_certificate_es25399641.pdf`,
-  });
+  const documentUrl = `/docs/marriage_certificate_${srNumber}.pdf`;
+
+res.json({
+  success: true,
+  documentUrl: documentUrl,
+});
+
 });
 
 app.listen(3000, () => {
