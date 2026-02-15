@@ -10,7 +10,8 @@ async function searchDoc() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       captcha: captcha,
-      docId: "TRAINING-ID"
+      docId: "newcert"
+
     })
   });
 
