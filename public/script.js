@@ -4,6 +4,7 @@ function refreshCaptcha() {
 
 async function searchDoc() {
   const captcha = document.getElementById("captchaInput").value;
+  const srNumber = document.getElementById("srInput").value;
 
   const response = await fetch("/api/verify", {
     method: "POST",
