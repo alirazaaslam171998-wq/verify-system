@@ -16,9 +16,11 @@ app.use(
   })
 );
 
+// Serve static files
 app.use(express.static("public"));
 app.use("/docs", express.static(path.join(__dirname, "public/docs")));
 
+// Captcha API
 app.get("/api/captcha", (req, res) => {
   const captcha = svgCaptcha.create({
     size: 6,
@@ -31,6 +33,7 @@ app.get("/api/captcha", (req, res) => {
   res.send(captcha.data);
 });
 
+// Verify API
 app.post("/api/verify", (req, res) => {
   const { captcha, docId } = req.body;
 
@@ -38,14 +41,25 @@ app.post("/api/verify", (req, res) => {
     return res.json({ success: false });
   }
 
-res.json({
-  success: true,
-  documentUrl: `/docs/marriage_certificate_es25399641.pdf`,
+  let documentUrl = "";
+
+  if (docId === "TRAINING-ID") {
+    // Old certificate
+    documentUrl = "/docs/marriage_certificate_es25399641.pdf";
+  } else if (docId === "newcert") {
+    // New certificate
+    documentUrl = "/docs/marriage_certificate_es78524612.pdf";
+  } else {
+    return res.json({ success: false });
+  }
+
+  res.json({
+    success: true,
+    documentUrl: documentUrl,
+  });
 });
 
-
-});
-
+// Start server
 app.listen(3000, () => {
   console.log("Server running for https://e-sewa-punjabgovernment.com/");
 });
