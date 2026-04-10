@@ -51,7 +51,7 @@ app.post("/api/verify", (req, res) => {
     documentUrl = "/docs/marriage_certificate_es78524612.pdf";
     } else if (docId === "deathcert") {
   documentUrl = "/docs/death_certificate_es17154778.pdf";
-}
+
   } else {
     return res.json({ success: false });
   }
